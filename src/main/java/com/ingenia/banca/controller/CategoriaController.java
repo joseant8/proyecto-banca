@@ -2,6 +2,7 @@ package com.ingenia.banca.controller;
 
 import com.ingenia.banca.model.Categoria;
 import com.ingenia.banca.service.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @RequestMapping("/API")
 public class CategoriaController {
 
+    @Autowired
     private CategoriaService servicio;
 
     /**
