@@ -19,7 +19,7 @@ public class Tarjeta {
     // relaciones
 
     @ManyToOne
-    @Column(name = "cuenta_id")
+    @JoinColumn(name = "cuenta_id")
     private Cuenta cuenta;
 
     @OneToMany(mappedBy = "tarjeta")

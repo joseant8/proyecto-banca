@@ -25,15 +25,15 @@ public class Movimiento {
     //relaciones
 
     @ManyToOne
-    @Column(name= "categoria_id")
+    @JoinColumn(name= "categoria_id")
     private Categoria categoria;
 
     @ManyToOne
-    @Column(name="cuenta_id", nullable = false)
+    @JoinColumn(name="cuenta_id", nullable = false)
     private Cuenta cuenta;
 
     @ManyToOne
-    @Column(name= "tarjeta_id")
+    @JoinColumn(name= "tarjeta_id")
     private Tarjeta tarjeta;
 
 
