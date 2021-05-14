@@ -52,9 +52,9 @@ public class TarjetaController {
 		// Nos aseguramos de que se ha creado la nueva tarjeta
 		if(tarjeta == null || tarjeta.getId() == null) {
 			// En caso de no haberse creado correctamente se devolvera un Error
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return ResponseEntity.created(new URI("API/tarjetas/" + tarjeta.getId())).body(tarjeta);
+        return ResponseEntity.ok().body(tarjeta);
 	}
 	
 	/**
@@ -66,9 +66,9 @@ public class TarjetaController {
 	public ResponseEntity<Tarjeta> obtenerTarjetaPoridTarjeta(@PathVariable("idTarjeta") Long idTarjeta) {
 		try {
 		Tarjeta tarjeta =  tarjetaService.obtenerTarjetaById(idTarjeta);
-		return ResponseEntity.created(new URI("API/tarjetas/" + tarjeta.getId())).body(tarjeta);
-		}catch(EntityNotFoundException | URISyntaxException e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.ok().body(tarjeta);
+		}catch(EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
 	}
