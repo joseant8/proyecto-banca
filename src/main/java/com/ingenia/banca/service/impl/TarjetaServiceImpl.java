@@ -39,7 +39,12 @@ public class TarjetaServiceImpl implements TarjetaService {
 		return tarjetaRepository.obtenerTarjetaByNumeroTarjeta(numeroTarjeta).orElseThrow(()
                 -> new EntityNotFoundException("No se ha encontrado tarjeta con numero: "+numeroTarjeta));
 	}
-	
-	
+
+	@Transactional
+	@Override
+	public Tarjeta obtenerTarjetaById(Long idTarjeta) {
+		return tarjetaRepository.findById(idTarjeta).orElseThrow(()
+                -> new EntityNotFoundException("No se ha encontrado tarjeta con numero: "+idTarjeta));
+	}
 	
 }

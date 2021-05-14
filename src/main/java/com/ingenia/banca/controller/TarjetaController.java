@@ -49,9 +49,9 @@ public class TarjetaController {
 	 * @param idTarjeta
 	 * @return Devuelve el objeto Tarjeta obtenido de la base de datos
 	 */
-	@GetMapping(value = "/{numeroTarjeta}")
-	public Tarjeta getTarjetaPorNumeroTarjeta(@PathVariable("numeroTarjeta") Long numeroTarjeta) {
-		return tarjetaService.obtenerTarjetaByNumeroTarjeta(numeroTarjeta);
+	@GetMapping(value = "/{idTarjeta}")
+	public Tarjeta obtenerTarjetaPoridTarjeta(@PathVariable("idTarjeta") Long idTarjeta) {
+		return tarjetaService.obtenerTarjetaById(idTarjeta);
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class TarjetaController {
 	 * @return Devuelve la lista de tarjetas asignadas a una cuenta
 	 */
 	@GetMapping
-	public List<Tarjeta> ObtenerTarjetaCuenta(@RequestBody Cuenta cuenta) {
+	public List<Tarjeta> obtenerTarjetaCuenta(@RequestBody Cuenta cuenta) {
 		// LLamamos al metodo del service que obtiene las tarjetas
 		return tarjetaService.obtenerTarjetaByCuenta(cuenta);
 	}

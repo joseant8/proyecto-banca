@@ -15,6 +15,8 @@ public interface TarjetaService {
 	
 	public List<Tarjeta> obtenerTarjetaByCuenta(Cuenta cuenta);
 
-	public Tarjeta obtenerTarjetaByNumeroTarjeta(Long idTarjeta);
+	public Tarjeta obtenerTarjetaByNumeroTarjeta(Long numeroTarjeta);
+	
+	public Tarjeta obtenerTarjetaById(Long idTarjeta);
 	
 }
