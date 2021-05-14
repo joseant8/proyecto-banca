@@ -56,9 +56,13 @@ public class CategoriaController {
         if(categoria.getId() != null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        Optional<Categoria> categoriaCreada = servicio.crearCategoria(categoria);
+        if(categoriaCreada.isPresent()){
+            return ResponseEntity.created(new URI("API/categorias/" + categoriaCreada.get().getId())).body(categoriaCreada.get());
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);   // ya existe una categoría con el nombre indicado
+        }
 
-        Categoria categoriaCreada = servicio.crearCategoria(categoria);
-        return ResponseEntity.created(new URI("API/categorias/" + categoriaCreada.getId())).body(categoriaCreada);
     }
 
 
