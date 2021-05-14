@@ -52,11 +52,12 @@ public class TarjetaController {
 	 * @return Devuelve el objeto Tarjeta obtenido de la base de datos
 	 */
 	@GetMapping(value = "/{idTarjeta}")
-	public Tarjeta obtenerTarjetaPoridTarjeta(@PathVariable("idTarjeta") Long idTarjeta) {
+	public ResponseEntity<Tarjeta> obtenerTarjetaPoridTarjeta(@PathVariable("idTarjeta") Long idTarjeta) {
 		try {
-		return tarjetaService.obtenerTarjetaById(idTarjeta);
-		}catch(EntityNotFoundException e) {
-			return null;
+		Tarjeta tarjeta =  tarjetaService.obtenerTarjetaById(idTarjeta);
+		return ResponseEntity.created(new URI("API/tarjetas/" + tarjeta.getId())).body(tarjeta);
+		}catch(EntityNotFoundException | URISyntaxException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 	}
