@@ -28,7 +28,10 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
-    public Categoria crearCategoria(Categoria categoria) {
-        return repositorio.save(categoria);
+    public Optional<Categoria> crearCategoria(Categoria categoria) {
+        if(repositorio.existsByNombre(categoria.getNombre())){
+            return Optional.empty();
+        }
+        return Optional.of(repositorio.save(categoria));
     }
 }

@@ -21,9 +21,9 @@ public interface CategoriaService {
     public Optional<Categoria> obtenerCategoriaById(Long id);
 
     /**
-     * Crea una nueva categoría en la BD
+     * Crea una nueva categoría en la BD. Si ya existe un categoría con el mismo 'nombre' no se crea.
      * @param categoria
      * @return categoría creada
      */
-    public Categoria crearCategoria(Categoria categoria);
+    public Optional<Categoria> crearCategoria(Categoria categoria);
 }
