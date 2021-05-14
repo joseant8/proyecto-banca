@@ -3,9 +3,10 @@ package com.ingenia.banca.service.impl;
 import com.ingenia.banca.model.Categoria;
 import com.ingenia.banca.model.Cuenta;
 import com.ingenia.banca.model.Movimiento;
-import com.ingenia.banca.model.MovimientosFilter;
 import com.ingenia.banca.model.Tarjeta;
 import com.ingenia.banca.model.TipoMovimiento;
+import com.ingenia.banca.model.Filter.MovimientoMesFilter;
+import com.ingenia.banca.model.Filter.MovimientosFilter;
 import com.ingenia.banca.repository.CategoriaRepository;
 import com.ingenia.banca.repository.CuentaRepository;
 import com.ingenia.banca.repository.MovimientoRepository;
@@ -16,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -126,4 +128,77 @@ public class MovimientoServiceImpl implements MovimientoService {
 		return movimientoRepository.obtenerMovimientosDeTarjetaFechas(idTarjeta, dateInit , datefin);
 		
 	}
+
+	@Override
+	public List<Movimiento> obtenerMovimientosCuentaByCategoria(Long idCuenta, MovimientoMesFilter filtroMovimiento) {
+		Date fechaInit = new Date();
+		Date fechaFin = new Date();
+		try {
+			fechaInit= obtenerFechaInicio(filtroMovimiento);
+			fechaFin = obtenerFechaFin(filtroMovimiento, fechaInit);
+			
+		} catch (ParseException e) {
+		}
+		Long idCategoria = filtroMovimiento.getIdCategoria();
+		
+		return movimientoRepository.obtenerMovimientosDeCuentaByFechaAndCategoria(idCuenta,idCategoria ,fechaInit, fechaFin);
+	}
+	
+	@Override
+	public List<Movimiento> obtenerMovimientosTarjetaByCategoria(Long idTarjeta, MovimientoMesFilter filtroMovimiento) {
+		Date fechaInit = new Date();
+		Date fechaFin = new Date();
+		try {
+			fechaInit= obtenerFechaInicio(filtroMovimiento);
+			fechaFin = obtenerFechaFin(filtroMovimiento, fechaInit);
+			
+		} catch (ParseException e) {
+		}
+		Long idCategoria = filtroMovimiento.getIdCategoria();
+		return movimientoRepository.obtenerMovimientosDeTarjetaByFechaAndCategoria(idTarjeta,idCategoria ,fechaInit, fechaFin);
+	}
+	
+
+	@Override
+	public List<Movimiento> obtenerMovimientosUsuarioByCategoria(Long idUsuario, MovimientoMesFilter filtroMovimiento) {
+		Date fechaInit = new Date();
+		Date fechaFin = new Date();
+		try {
+			fechaInit= obtenerFechaInicio(filtroMovimiento);
+			fechaFin = obtenerFechaFin(filtroMovimiento, fechaInit);
+			
+		} catch (ParseException e) {
+		}
+		Long idCategoria = filtroMovimiento.getIdCategoria();
+		return movimientoRepository.obtenerMovimientosDeUsuarioByFechaAndCategoria(idUsuario,idCategoria ,fechaInit, fechaFin);
+	}
+	
+	private Date obtenerFechaInicio(MovimientoMesFilter filtroMovimiento) throws ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		int anoActual = LocalDate.now().getYear();
+		String mes = filtroMovimiento.getMes();
+		return dateFormat.parse(anoActual+"-"+mes+"-01");
+	}
+	
+	private Date obtenerFechaFin(MovimientoMesFilter filtroMovimiento,Date fechaInit) throws ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		int anoActual = LocalDate.now().getYear();
+		String mes = filtroMovimiento.getMes();
+		int ultimoDia = ponerDiasFechaFinMes(fechaInit);
+		return dateFormat.parse(anoActual+"-"+mes+"-"+ultimoDia);
+
+		
+	}
+	
+	private static int ponerDiasFechaFinMes(Date fecha){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha); // Configuramos la fecha que se recibe
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+ }
+
+
+
+
 }

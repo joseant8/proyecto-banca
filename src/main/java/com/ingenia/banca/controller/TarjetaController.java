@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ingenia.banca.model.Cuenta;
 import com.ingenia.banca.model.Movimiento;
 import com.ingenia.banca.model.Tarjeta;
-import com.ingenia.banca.model.TimeFilter;
 import com.ingenia.banca.model.TipoMovimiento;
+import com.ingenia.banca.model.Filter.TimeFilter;
 import com.ingenia.banca.service.MovimientoService;
 import com.ingenia.banca.service.TarjetaService;
 

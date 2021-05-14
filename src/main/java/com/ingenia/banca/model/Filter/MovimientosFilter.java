@@ -1,6 +1,8 @@
-package com.ingenia.banca.model;
+package com.ingenia.banca.model.Filter;
 
 import java.util.Date;
+
+import com.ingenia.banca.model.TipoMovimiento;
 
 public class MovimientosFilter {
     private Long id;

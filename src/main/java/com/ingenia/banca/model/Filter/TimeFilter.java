@@ -1,4 +1,4 @@
-package com.ingenia.banca.model;
+package com.ingenia.banca.model.Filter;
 
 import java.time.LocalDate;
 
