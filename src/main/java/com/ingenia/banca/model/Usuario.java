@@ -1,5 +1,7 @@
 package com.ingenia.banca.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +16,10 @@ public class Usuario {
     @Column(unique = true)
     private String username;   // para el login
 
-    private String nombre;
+    private String nombreCompleto;
 
-    private String apellido1;
-
-    private String apellido2;
+    @JsonIgnore
+    private String password;
 
     // relaciones
 
@@ -34,11 +35,10 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String username, String nombre, String apellido1, String apellido2) {
+    public Usuario(String username, String nombreCompleto, String password) {
         this.username = username;
-        this.nombre = nombre;
-        this.apellido1 = apellido1;
-        this.apellido2 = apellido2;
+        this.nombreCompleto = nombreCompleto;
+        this.password = password;
     }
 
     public Long getId() {
@@ -53,28 +53,20 @@ public class Usuario {
         this.username = username;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreCompleto() {
+        return nombreCompleto;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
     }
 
-    public String getApellido1() {
-        return apellido1;
+    public String getPassword() {
+        return password;
     }
 
-    public void setApellido1(String apellido1) {
-        this.apellido1 = apellido1;
-    }
-
-    public String getApellido2() {
-        return apellido2;
-    }
-
-    public void setApellido2(String apellido2) {
-        this.apellido2 = apellido2;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Cuenta> getCuentas() {
