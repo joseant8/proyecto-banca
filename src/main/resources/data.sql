@@ -1,8 +1,8 @@
-INSERT INTO usuario (nombre, apellido1, username) values
-    ('Jose Antonio', 'Marí', 'jose@email.com'),
-    ('Sara', 'Martínez', 'sara@email.com'),
-    ('Alejandro', 'Tur', 'al@email.com'),
-    ('Marta', 'Carrasco', 'marta@email.com')
+INSERT INTO usuario (nombre_completo, username, password) values
+    ('Jose Antonio Marí Martín', 'jose@email.com', '$2a$10$lBzSDeiPcfCrOXBljvc1BOyI32oa9BXfhks6xBx8WubO5WdfLnh3a'),
+    ('Sara Martínez Martínez', 'sara@email.com', '$2a$10$lBzSDeiPcfCrOXBljvc1BOyI32oa9BXfhks6xBx8WubO5WdfLnh3a'),
+    ('Alejandro Tur Costa', 'al@email.com', '$2a$10$lBzSDeiPcfCrOXBljvc1BOyI32oa9BXfhks6xBx8WubO5WdfLnh3a'),
+    ('Marta Carrasco Carrasco', 'marta@email.com', '$2a$10$lBzSDeiPcfCrOXBljvc1BOyI32oa9BXfhks6xBx8WubO5WdfLnh3a')
     ;
 
 INSERT INTO cuenta (iban, saldo, fecha_creacion) values
