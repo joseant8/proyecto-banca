@@ -48,7 +48,7 @@ public class TarjetaController {
 	
 	/**
 	 * Obtenemos la tarjeta con el numero de la tarjeta
-	 * @param numeroTarjeta
+	 * @param idTarjeta
 	 * @return Devuelve el objeto Tarjeta obtenido de la base de datos
 	 */
 	@GetMapping(value = "/{idTarjeta}")
