@@ -21,6 +21,8 @@ public interface MovimientoService {
 
 	public List<Movimiento> obtenerMovimientosFiltrados(MovimientosFilter filtro);
 	
+	public List<Movimiento> obtenerMovimientoFechaCuenta(Long idCuenta,LocalDate fechaInit, LocalDate fechaFin);
+
 	public List<Movimiento> obtenerMovimientoFechaTarjeta(Long idTarjeta,LocalDate fechaInit, LocalDate fechaFin);
 
 	public List<Movimiento> obtenerMovimientosCuentaByCategoria(Long idCuenta, MovimientoMesFilter filtroMovimiento);

@@ -1,10 +1,7 @@
 package com.ingenia.banca.controller;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ingenia.banca.model.Cuenta;
 import com.ingenia.banca.model.Movimiento;
 import com.ingenia.banca.model.Tarjeta;
-import com.ingenia.banca.model.TipoMovimiento;
 import com.ingenia.banca.model.Filter.TimeFilter;
 import com.ingenia.banca.service.MovimientoService;
 import com.ingenia.banca.service.TarjetaService;
