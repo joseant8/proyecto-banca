@@ -35,15 +35,24 @@ public class UsuarioController {
         }
     }
 
+    /**
+     * Obtener todos los usuarios de la BD
+     * @return lista de usuarios
+     */
+    @GetMapping("/usuarios")
+    public List<Usuario> obtenerTodosUsuarios(){
+        return servicio.obtenerTodosUsuarios();
+    }
+
 
     /**
      * Obtener todos los usuarios de una cuenta
-     * @param id id de la cuenta
+     * @param cuenta_id id de la cuenta
      * @return lista de usuarios
      */
     @GetMapping("/usuarios/cuenta/{cuenta_id}")
-    public List<Usuario> obtenerTodosUsuariosByCuentaId(@PathVariable Long id){
-        return servicio.obtenerTodosUsuariosByCuentaId(id);
+    public List<Usuario> obtenerTodosUsuariosByCuentaId(@PathVariable Long cuenta_id){
+        return servicio.obtenerTodosUsuariosByCuentaId(cuenta_id);
     }
 
 
@@ -53,7 +62,7 @@ public class UsuarioController {
      * @return usuario creado
      */
     @PostMapping("usuarios")
-    public ResponseEntity<Usuario> crearUsuario(Usuario usuario) throws URISyntaxException {
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) throws URISyntaxException {
         if(usuario.getId() != null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }else{
