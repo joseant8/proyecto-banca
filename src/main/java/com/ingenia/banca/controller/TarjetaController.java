@@ -26,6 +26,7 @@ import com.ingenia.banca.model.TipoMovimiento;
 import com.ingenia.banca.model.Filter.TimeFilter;
 import com.ingenia.banca.service.MovimientoService;
 import com.ingenia.banca.service.TarjetaService;
+import com.ingenia.banca.utils.Utils;
 
 @RestController
 @RequestMapping("/API/tarjetas")
@@ -85,19 +86,11 @@ public class TarjetaController {
 	
 	@GetMapping("/balance/{idTarjeta}")
 	public double balanceDiarioGlobal(@PathVariable("idTarjeta")Long idTarjeta, @RequestBody() TimeFilter filtroFecha) {
-		double balance = 0;
 		LocalDate fechaInit = filtroFecha.getFechaInit();
 		LocalDate fechaFin = filtroFecha.getFechaFin();
 		List<Movimiento> listaMovimiento = movimientoService.obtenerMovimientoFechaTarjeta(idTarjeta, fechaInit, fechaFin);
 		
-		for (Iterator iterator = listaMovimiento.iterator(); iterator.hasNext();) {
-			Movimiento movimiento = (Movimiento) iterator.next();
-			if(movimiento.getTipo().equals(TipoMovimiento.INGRESO)) {
-				balance += movimiento.getCantidad();
-			}else {
-				balance -= movimiento.getCantidad();
-			}
-		}
+		double balance = Utils.obtenerSaldoDeMovimientos(listaMovimiento);
 		
 		return balance;
 	}
