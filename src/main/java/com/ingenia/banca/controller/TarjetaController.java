@@ -2,6 +2,9 @@ package com.ingenia.banca.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -17,7 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ingenia.banca.model.Cuenta;
+import com.ingenia.banca.model.Movimiento;
 import com.ingenia.banca.model.Tarjeta;
+import com.ingenia.banca.model.TimeFilter;
+import com.ingenia.banca.model.TipoMovimiento;
+import com.ingenia.banca.service.MovimientoService;
 import com.ingenia.banca.service.TarjetaService;
 
 @RestController
@@ -26,6 +33,9 @@ public class TarjetaController {
 	
 	@Autowired
 	private TarjetaService tarjetaService;
+	
+	@Autowired
+	private MovimientoService movimientoService;
 	
 	/**
 	 * Crear nueva tarjeta en la DB
@@ -71,5 +81,24 @@ public class TarjetaController {
 	public List<Tarjeta> obtenerTarjetaCuenta(@RequestBody Cuenta cuenta) {
 		// LLamamos al metodo del service que obtiene las tarjetas
 		return tarjetaService.obtenerTarjetaByCuenta(cuenta);
+	}
+	
+	@GetMapping("/balance/{idTarjeta}")
+	public double balanceDiarioGlobal(@PathVariable("idTarjeta")Long idTarjeta, @RequestBody() TimeFilter filtroFecha) {
+		double balance = 0;
+		LocalDate fechaInit = filtroFecha.getFechaInit();
+		LocalDate fechaFin = filtroFecha.getFechaFin();
+		List<Movimiento> listaMovimiento = movimientoService.obtenerMovimientoFechaTarjeta(idTarjeta, fechaInit, fechaFin);
+		
+		for (Iterator iterator = listaMovimiento.iterator(); iterator.hasNext();) {
+			Movimiento movimiento = (Movimiento) iterator.next();
+			if(movimiento.getTipo().equals(TipoMovimiento.INGRESO)) {
+				balance += movimiento.getCantidad();
+			}else {
+				balance -= movimiento.getCantidad();
+			}
+		}
+		
+		return balance;
 	}
 }

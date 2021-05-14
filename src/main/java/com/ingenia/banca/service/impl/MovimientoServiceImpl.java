@@ -12,6 +12,9 @@ import com.ingenia.banca.repository.MovimientoRepository;
 import com.ingenia.banca.repository.TarjetaRepository;
 import com.ingenia.banca.service.MovimientoService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -108,5 +111,19 @@ public class MovimientoServiceImpl implements MovimientoService {
 			
 			return movimientoRepository.findAll(Example.of(movimientoFiltro));
 		}
+	}
+
+	@Override
+	public List<Movimiento> obtenerMovimientoFechaTarjeta(Long idTarjeta, LocalDate fechaInit, LocalDate fechaFin) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date dateInit = null;
+		Date datefin = null;
+		try {
+			dateInit = formatter.parse(fechaInit.toString());
+			datefin = formatter.parse(fechaFin.toString());
+		} catch (ParseException e) {
+		} 
+		return movimientoRepository.obtenerMovimientosDeTarjetaFechas(idTarjeta, dateInit , datefin);
+		
 	}
 }

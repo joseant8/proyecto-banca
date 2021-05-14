@@ -1,5 +1,7 @@
 package com.ingenia.banca.service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,4 +19,6 @@ public interface MovimientoService {
 	public List<Movimiento> obtenerMovimientosDeCuenta(Cuenta cuenta);
 
 	public List<Movimiento> obtenerMovimientosFiltrados(MovimientosFilter filtro);
+	
+	public List<Movimiento> obtenerMovimientoFechaTarjeta(Long idTarjeta,LocalDate fechaInit, LocalDate fechaFin);
 }
