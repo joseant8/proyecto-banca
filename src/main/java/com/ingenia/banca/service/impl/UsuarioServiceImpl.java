@@ -28,6 +28,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public List<Usuario> obtenerTodosUsuarios() {
+        return usuarioRepositorio.findAll();
+    }
+
+    @Override
     public List<Usuario> obtenerTodosUsuariosByCuentaId(Long id) {
         Optional<Cuenta> cuenta = cuentaRepositorio.findById(id);
         if(cuenta.isPresent()){
@@ -39,13 +44,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Optional<Usuario> crearUsuario(Usuario usuario) {
-        // miramos si existe ya un usuario con el 'username' indicado
-        Optional<Usuario> usuarioDB = usuarioRepositorio.findByUsername(usuario.getUsername());
-        if(usuarioDB.isEmpty()){
+        // miramos si ya existe un usuario con el 'username' indicado
+        if(usuarioRepositorio.existsByUsername(usuario.getUsername())){
+            return Optional.empty();
+        }else{
             Usuario usuarioCreado = usuarioRepositorio.save(usuario);
             return Optional.of(usuarioCreado);
-        }else{
-            return Optional.empty();
         }
     }
 }

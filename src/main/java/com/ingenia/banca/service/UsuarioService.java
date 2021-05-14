@@ -7,12 +7,20 @@ import java.util.Optional;
 
 public interface UsuarioService {
 
+
     /**
      * Obtener usuario de la BD según su id
      * @param id
      * @return usuario
      */
     public Optional<Usuario> obtenerUsuarioById(Long id);
+
+
+    /**
+     * Obtener todos los usuarios de la BD
+     * @return lista de usuarios
+     */
+    public List<Usuario> obtenerTodosUsuarios();
 
 
     /**
