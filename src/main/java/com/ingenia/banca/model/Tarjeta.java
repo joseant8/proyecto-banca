@@ -14,7 +14,7 @@ public class Tarjeta {
     private Long id;
 
     @Column(nullable = false)
-    private Long numero;
+    private Long numero; 
 
     // relaciones
 
