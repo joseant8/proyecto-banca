@@ -1,7 +1,12 @@
 package com.ingenia.banca.controller;
 
+import com.ingenia.banca.model.Cuenta;
+import com.ingenia.banca.model.Movimiento;
 import com.ingenia.banca.model.Usuario;
+import com.ingenia.banca.payload.filter.TimeFilter;
+import com.ingenia.banca.service.MovimientoService;
 import com.ingenia.banca.service.UsuarioService;
+import com.ingenia.banca.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +25,13 @@ public class UsuarioController {
     @Autowired
     UsuarioService servicio;
 
+    @Autowired
+    private MovimientoService movimientoServicio;
+
 
     /**
      * Obtener un usuario según el id
-     * @param id
+     * @param id id del usuario
      * @return usuario
      */
     @GetMapping("/usuarios/{id}")
@@ -47,7 +56,7 @@ public class UsuarioController {
 
     /**
      * Crea un nuevo usuario. Si el 'username' indicado ya existe, no se crea el usuario.
-     * @param usuario
+     * @param usuario usuario que queremos crear
      * @return usuario creado
      */
     @PostMapping("usuarios")
@@ -62,5 +71,28 @@ public class UsuarioController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // El 'username' ya existía y no se crea el nuevo usuario
             }
         }
+    }
+
+
+    /**
+     * Devuelve el balance del saldo de todas las cuentas del usuario en un intervalo de tiempo
+     * @param id id del usuario
+     * @param filtroFecha el intervalo de tiempo (fechas)
+     * @return Balance del saldo
+     */
+    @GetMapping("/usuarios/balance/{id}")
+    public double balanceDiarioGlobal(@PathVariable Long id, @RequestBody() TimeFilter filtroFecha) {
+        LocalDate fechaInit = filtroFecha.getFechaInit();
+        LocalDate fechaFin = filtroFecha.getFechaFin();
+        Optional<Usuario> usuario = servicio.obtenerUsuarioById(id);
+
+        double resultado = 0.0;
+        if(usuario.isPresent()){
+            for (Cuenta cuenta: usuario.get().getCuentas()) {
+                List<Movimiento> listaMovimiento = movimientoServicio.obtenerMovimientoFechaCuenta(cuenta.getId(),fechaInit,fechaFin);
+                resultado = resultado + Utils.obtenerSaldoDeMovimientos(listaMovimiento);
+            }
+        }
+        return resultado;
     }
 }
