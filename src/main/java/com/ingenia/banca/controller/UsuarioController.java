@@ -46,17 +46,6 @@ public class UsuarioController {
 
 
     /**
-     * Obtener todos los usuarios de una cuenta
-     * @param cuenta_id id de la cuenta
-     * @return lista de usuarios
-     */
-    @GetMapping("/usuarios/cuenta/{cuenta_id}")
-    public List<Usuario> obtenerTodosUsuariosByCuentaId(@PathVariable Long cuenta_id){
-        return servicio.obtenerTodosUsuariosByCuentaId(cuenta_id);
-    }
-
-
-    /**
      * Crea un nuevo usuario. Si el 'username' indicado ya existe, no se crea el usuario.
      * @param usuario
      * @return usuario creado

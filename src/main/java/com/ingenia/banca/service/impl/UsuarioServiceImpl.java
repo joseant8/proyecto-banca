@@ -1,13 +1,10 @@
 package com.ingenia.banca.service.impl;
 
-import com.ingenia.banca.model.Cuenta;
 import com.ingenia.banca.model.Usuario;
-import com.ingenia.banca.repository.CuentaRepository;
 import com.ingenia.banca.repository.UsuarioRepository;
 import com.ingenia.banca.service.UsuarioService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,11 +12,9 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     UsuarioRepository usuarioRepositorio;
-    CuentaRepository cuentaRepositorio;   // lo usaremos para las asociaciones entre cuentas y usuarios
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepositorio, CuentaRepository cuentaRepositorio) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepositorio) {
         this.usuarioRepositorio = usuarioRepositorio;
-        this.cuentaRepositorio = cuentaRepositorio;
     }
 
     @Override
@@ -30,16 +25,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<Usuario> obtenerTodosUsuarios() {
         return usuarioRepositorio.findAll();
-    }
-
-    @Override
-    public List<Usuario> obtenerTodosUsuariosByCuentaId(Long id) {
-        Optional<Cuenta> cuenta = cuentaRepositorio.findById(id);
-        if(cuenta.isPresent()){
-            return cuenta.get().getUsuarios();
-        }else{
-            return new ArrayList<Usuario>();  // lista vacía
-        }
     }
 
     @Override
