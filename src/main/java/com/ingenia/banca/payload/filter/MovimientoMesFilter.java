@@ -1,4 +1,4 @@
-package com.ingenia.banca.model.Filter;
+package com.ingenia.banca.payload.filter;
 
 
 public class MovimientoMesFilter {

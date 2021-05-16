@@ -1,4 +1,4 @@
-package com.ingenia.banca.model.Filter;
+package com.ingenia.banca.payload.filter;
 
 import java.util.Date;
 
