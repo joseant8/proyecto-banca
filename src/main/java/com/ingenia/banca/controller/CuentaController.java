@@ -90,16 +90,16 @@ public class CuentaController {
 	}
 	
 	/**
-	 * Metodo que nos devuelve el balance de saldo de la cuenta de un usuario pasado por parámetro en un intervalo de tiempo (fechas) deseado
-	 * @param idUsuario id del usuario
+	 * Obtiene el balance de saldo de la cuenta pasada por parámetro en un intervalo de tiempo (fechas) deseado
+	 * @param idCuenta id de la cuenta
 	 * @param filtroFecha intervalo de fechas del que se quiere ver el balance de saldo
 	 * @return Balance del saldo
 	 */
-	@GetMapping("/usuario/balance/{idUsuario}")
-	public double obtenerBalanceCuentaByUserId(@PathVariable("idUsuario") Long idUsuario,  @RequestBody TimeFilter filtroFecha){
+	@GetMapping("/balance/{idCuenta}")
+	public double obtenerBalanceByCuentaId(@PathVariable("idCuenta") Long idCuenta,  @RequestBody TimeFilter filtroFecha){
 		LocalDate fechaInit = filtroFecha.getFechaInit();
 		LocalDate fechaFin = filtroFecha.getFechaFin();
-		List<Movimiento> listaMovimiento= movimientoService.obtenerMovimientoFechaCuenta(idUsuario,fechaInit,fechaFin);
+		List<Movimiento> listaMovimiento= movimientoService.obtenerMovimientoFechaCuenta(idCuenta,fechaInit,fechaFin);
 
 		return Utils.obtenerSaldoDeMovimientos(listaMovimiento);
 	}
