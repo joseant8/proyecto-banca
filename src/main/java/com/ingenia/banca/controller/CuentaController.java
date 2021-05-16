@@ -1,8 +1,10 @@
 package com.ingenia.banca.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.ingenia.banca.model.Tarjeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +61,21 @@ public class CuentaController {
 			return ResponseEntity.ok().body(cuenta);
 		}catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * Obtenemos todas las tarjetas de la cuenta cuyo id se pasa por parámetro
+	 * @param idCuenta id de la cuenta
+	 * @return Lista de tarjetas asociadas a la cuenta
+	 */
+	@GetMapping("/tarjetas/{idCuenta}")
+	public List<Tarjeta> obtenerTodasTarjetasCuenta(@PathVariable("idCuenta")Long idCuenta){
+		try {
+			Cuenta cuenta = cuentaService.obtenerCuentaById(idCuenta);
+			return cuenta.getTarjetas();
+		}catch(Exception e) {
+			return new ArrayList<>();
 		}
 	}
 	
