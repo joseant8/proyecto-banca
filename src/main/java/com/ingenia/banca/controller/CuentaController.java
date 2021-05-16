@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ingenia.banca.model.Cuenta;
 import com.ingenia.banca.model.Movimiento;
-import com.ingenia.banca.model.Filter.TimeFilter;
+import com.ingenia.banca.payload.filter.TimeFilter;
 import com.ingenia.banca.service.CuentaService;
 import com.ingenia.banca.service.MovimientoService;
 import com.ingenia.banca.utils.Utils;
@@ -29,26 +29,28 @@ public class CuentaController {
 
 	@Autowired
 	private MovimientoService movimientoService;
-	
+
 	/**
-	 * Metodo para crear nueva cuenta
-	 * @param cuenta Cuenta que queremos guardar en base de datos
-	 * @return devuelve la cuenta ya creada
+	 * Crear una nueva nueva cuenta
+	 * @param cuenta cuenta que queremos crear y guardar en la base de datos
+	 * @return Devuelve la cuenta creada
 	 */
 	@PostMapping
 	public ResponseEntity<Cuenta> crearCuenta(@RequestBody Cuenta cuenta){
-		Cuenta cuentaCreada = cuentaService.crearCuenta(cuenta);
-		if(cuentaCreada == null || cuenta.getId() ==null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		if(cuenta.getId() == null){
+			Cuenta cuentaCreada = cuentaService.crearCuenta(cuenta);
+			if(cuentaCreada != null) {
+				return ResponseEntity.ok().body(cuentaCreada);
+			}
 		}
-        return ResponseEntity.ok().body(cuentaCreada);
-		
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	/**
-	 * Metodo que nos devuelve la cuenta que corresponde al id que s ele pasa de parametro
-	 * @param idCuenta id de la cuenta a buscar
-	 * @return Nos devuvle el objeto cuenta que ha encontrado con el id 
+	 * Devuelve la cuenta según su id
+	 * @param idCuenta id de la cuenta
+	 * @return Cuenta
 	 */
 	@GetMapping("/{idCuenta}")
 	public ResponseEntity<Cuenta> obtenerCuentaById(@PathVariable("idCuenta")Long idCuenta){
@@ -61,29 +63,28 @@ public class CuentaController {
 	}
 	
 	/**
-	 * Obtiene la lista de las cuentas que pertenecen al usuario con el id pasado
-	 * @param idUsuario id del usuario del que queremos buscar las cuenas
-	 * @return listado de cuentas pertenecientes al usuario con id pasado por parametro
+	 * Obtiene la lista de todas las cuentas que pertenecen al usuario con el id pasado por parámetro
+	 * @param idUsuario id del usuario
+	 * @return Lista de cuentas del usuario
 	 */
 	@GetMapping("/usuario/{idUsuario}")
-	public List<Cuenta> obtenerCuentaByUserId(@PathVariable("idUsuario") Long idUsuario){
-		return cuentaService.obtenerCuentaByUsuarioId(idUsuario);
+	public List<Cuenta> obtenerTodasCuentasByUsuarioId(@PathVariable("idUsuario") Long idUsuario){
+		return cuentaService.obtenerTodasCuentasByUsuarioId(idUsuario);
 	}
 	
 	/**
-	 * Metodo que nos devuelve el balance de la cuenta de un usuario pasado por parametro en un intervalode fechas deseado
-	 * @param idUsuario usuario del que se quiere ver el balance
-	 * @param filtroFecha fechas en las que se queire ver el valance
-	 * @return Numero que equivale al balance durante este periodo de tiempo
+	 * Metodo que nos devuelve el balance de saldo de la cuenta de un usuario pasado por parámetro en un intervalo de tiempo (fechas) deseado
+	 * @param idUsuario id del usuario
+	 * @param filtroFecha intervalo de fechas del que se quiere ver el balance de saldo
+	 * @return Balance del saldo
 	 */
 	@GetMapping("/usuario/balance/{idUsuario}")
 	public double obtenerBalanceCuentaByUserId(@PathVariable("idUsuario") Long idUsuario,  @RequestBody TimeFilter filtroFecha){
 		LocalDate fechaInit = filtroFecha.getFechaInit();
 		LocalDate fechaFin = filtroFecha.getFechaFin();
 		List<Movimiento> listaMovimiento= movimientoService.obtenerMovimientoFechaCuenta(idUsuario,fechaInit,fechaFin);
-		double balance = Utils.obtenerSaldoDeMovimientos(listaMovimiento);
-		
-		return balance;
+
+		return Utils.obtenerSaldoDeMovimientos(listaMovimiento);
 	}
 	
 	
