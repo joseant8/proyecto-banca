@@ -22,6 +22,9 @@ public class Movimiento {
     @Column(nullable = false)
     private TipoMovimiento tipo;
 
+    @Column
+    private String concepto;
+
     //relaciones
 
     @ManyToOne
@@ -40,9 +43,10 @@ public class Movimiento {
     public Movimiento() {
     }
 
-    public Movimiento(Double cantidad, TipoMovimiento tipo, Categoria categoria, Cuenta cuenta, Tarjeta tarjeta) {
+    public Movimiento(Double cantidad, TipoMovimiento tipo, String concepto, Categoria categoria, Cuenta cuenta, Tarjeta tarjeta) {
         this.cantidad = cantidad;
         this.tipo = tipo;
+        this.concepto = concepto;
         this.categoria = categoria;
         this.cuenta = cuenta;
         this.tarjeta = tarjeta;
@@ -82,6 +86,14 @@ public class Movimiento {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public String getConcepto() {
+        return concepto;
+    }
+
+    public void setConcepto(String concepto) {
+        this.concepto = concepto;
     }
 
     public Cuenta getCuenta() {
