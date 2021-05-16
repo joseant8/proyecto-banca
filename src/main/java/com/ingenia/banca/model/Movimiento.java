@@ -25,6 +25,9 @@ public class Movimiento {
     @Column
     private String concepto;
 
+    @Column(nullable = false)
+    private Double saldoActual;
+
     //relaciones
 
     @ManyToOne
@@ -43,10 +46,11 @@ public class Movimiento {
     public Movimiento() {
     }
 
-    public Movimiento(Double cantidad, TipoMovimiento tipo, String concepto, Categoria categoria, Cuenta cuenta, Tarjeta tarjeta) {
+    public Movimiento(Double cantidad, TipoMovimiento tipo, String concepto, Double saldoActual, Categoria categoria, Cuenta cuenta, Tarjeta tarjeta) {
         this.cantidad = cantidad;
         this.tipo = tipo;
         this.concepto = concepto;
+        this.saldoActual = saldoActual;
         this.categoria = categoria;
         this.cuenta = cuenta;
         this.tarjeta = tarjeta;
@@ -94,6 +98,14 @@ public class Movimiento {
 
     public void setConcepto(String concepto) {
         this.concepto = concepto;
+    }
+
+    public Double getSaldoActual() {
+        return saldoActual;
+    }
+
+    public void setSaldoActual(Double saldoActual) {
+        this.saldoActual = saldoActual;
     }
 
     public Cuenta getCuenta() {
