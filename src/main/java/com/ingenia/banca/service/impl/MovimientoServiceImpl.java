@@ -212,6 +212,11 @@ public class MovimientoServiceImpl implements MovimientoService {
 
  }
 
+	@Override
+	public Movimiento crearMovimiento(Movimiento movimientoNuevo) {
+		return movimientoRepository.save(movimientoNuevo);
+	}
+
 
 
 }

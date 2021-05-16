@@ -3,11 +3,15 @@ package com.ingenia.banca.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import com.ingenia.banca.model.Movimiento;
 import com.ingenia.banca.payload.filter.MovimientoMesFilter;
@@ -21,6 +25,22 @@ public class MovimientoController {
 	
 	@Autowired
 	private MovimientoService movimientoService;
+	
+	/**
+	 * Metodo para guardad nuevo movimiento en la base de datos
+	 * @param movimientoNuevo movimiento que se quiere almacenar en la base de datos
+	 * @return devuelve el objeto guardado en la base de datos de tipo Movmiento
+	 */
+	@PostMapping
+	public ResponseEntity<Movimiento> crearMovimiento(@RequestBody Movimiento movimientoNuevo) {
+		Movimiento movimientoGuardado = movimientoService.crearMovimiento(movimientoNuevo);
+		if(movimientoGuardado.getId()!=null) {
+			return ResponseEntity.ok().body(movimientoGuardado);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
 	
 	/**
 	 * Obtiene todos los movimientos de una tarjeta
