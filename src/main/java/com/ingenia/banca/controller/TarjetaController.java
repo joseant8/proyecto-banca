@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ingenia.banca.model.Cuenta;
 import com.ingenia.banca.model.Movimiento;
 import com.ingenia.banca.model.Tarjeta;
-import com.ingenia.banca.model.Filter.TimeFilter;
+import com.ingenia.banca.payload.filter.TimeFilter;
 import com.ingenia.banca.service.MovimientoService;
 import com.ingenia.banca.service.TarjetaService;
 import com.ingenia.banca.utils.Utils;
@@ -35,9 +34,9 @@ public class TarjetaController {
 	private MovimientoService movimientoService;
 	
 	/**
-	 * Crear nueva tarjeta en la DB
-	 * @param tarjetaNueva 
-	 * @return la Tarjeta creada
+	 * Crea una nueva tarjeta en la DB
+	 * @param tarjetaNueva la tarjeta que queremos crear
+	 * @return la tarjeta creada
 	 * @throws URISyntaxException 
 	 */
 	@PostMapping
@@ -54,40 +53,32 @@ public class TarjetaController {
 	}
 	
 	/**
-	 * Obtenemos la tarjeta con el numero de la tarjeta
-	 * @param idTarjeta
-	 * @return Devuelve el objeto Tarjeta obtenido de la base de datos
+	 * Obtenemos la tarjeta a través del id pasado por parámetro
+	 * @param idTarjeta id de la tarjeta
+	 * @return tarjeta obtenida de la base de datos
 	 */
 	@GetMapping(value = "/{idTarjeta}")
-	public ResponseEntity<Tarjeta> obtenerTarjetaPoridTarjeta(@PathVariable("idTarjeta") Long idTarjeta) {
+	public ResponseEntity<Tarjeta> obtenerTarjetaById(@PathVariable("idTarjeta") Long idTarjeta) {
 		try {
 		Tarjeta tarjeta =  tarjetaService.obtenerTarjetaById(idTarjeta);
         return ResponseEntity.ok().body(tarjeta);
 		}catch(EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
 	}
-	
+
 	/**
-	 * Obtenemos la lista de las Tarjetas asociadas a una cuenta
-	 * @param cuenta
-	 * @return Devuelve la lista de tarjetas asignadas a una cuenta
+	 * Metodo que nos devuelve el balance del saldo de la tarjeta en un intervalo de tiempo
+	 * @param idTarjeta id de la tarjeta
+	 * @param filtroFecha el intervalo de tiempo (fechas)
+	 * @return Balance del saldo
 	 */
-	@GetMapping
-	public List<Tarjeta> obtenerTarjetaCuenta(@RequestBody Cuenta cuenta) {
-		// LLamamos al metodo del service que obtiene las tarjetas
-		return tarjetaService.obtenerTarjetaByCuenta(cuenta);
-	}
-	
 	@GetMapping("/balance/{idTarjeta}")
 	public double balanceDiarioGlobal(@PathVariable("idTarjeta")Long idTarjeta, @RequestBody() TimeFilter filtroFecha) {
 		LocalDate fechaInit = filtroFecha.getFechaInit();
 		LocalDate fechaFin = filtroFecha.getFechaFin();
 		List<Movimiento> listaMovimiento = movimientoService.obtenerMovimientoFechaTarjeta(idTarjeta, fechaInit, fechaFin);
 		
-		double balance = Utils.obtenerSaldoDeMovimientos(listaMovimiento);
-		
-		return balance;
+		return Utils.obtenerSaldoDeMovimientos(listaMovimiento);
 	}
 }
