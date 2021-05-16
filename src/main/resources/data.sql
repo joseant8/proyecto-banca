@@ -21,10 +21,10 @@ INSERT INTO categoria (nombre) values
 INSERT INTO tarjeta (numero,cuenta_id) VALUES ("1234987656785432", 1);
 INSERT INTO tarjeta (numero,cuenta_id) VALUES ("1234987656785433", 1);
 
-INSERT INTO movimiento (cantidad, tipo, concepto, categoria_id, cuenta_id, tarjeta_id, fecha) values
-    (35.04, 0, '', 1, 1, null, '2021-03-10'),
-    (20.2, 0, '', 2, 1, 1, '2021-05-10'),
-    (60.0, 1, '', 3, 1, null, '2021-05-12')
+INSERT INTO movimiento (cantidad, tipo, concepto, saldo_actual, categoria_id, cuenta_id, tarjeta_id, fecha) values
+    (35.04, 0, '', 3000+35.04 , 1, 1, null, '2021-03-10'),
+    (20.2, 0, '', 3000+35.04+20.2 , 2, 1, 1, '2021-05-10'),
+    (60.0, 1, '', 3000+35.04+20.2-60.0 , 3, 1, null, '2021-05-12')
     ;
 
 -- relaciones usuario_cuenta
