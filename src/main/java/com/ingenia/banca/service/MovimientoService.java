@@ -29,4 +29,6 @@ public interface MovimientoService {
 	public List<Movimiento> obtenerMovimientosTarjetaByCategoria(Long idTarjeta, MovimientoMesFilter filtroMovimiento);
 
 	public List<Movimiento> obtenerMovimientosUsuarioByCategoria(Long idUsuario, MovimientoMesFilter filtroMovimiento);
+
+	public Movimiento crearMovimiento(Movimiento movimientoNuevo);
 }
