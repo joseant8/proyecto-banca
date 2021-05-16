@@ -33,7 +33,7 @@ public class CuentaServiceImpl implements CuentaService {
 	}
 
 	@Override
-	public List<Cuenta> obtenerCuentaByUsuarioId(Long idUsuario) {
+	public List<Cuenta> obtenerTodasCuentasByUsuarioId(Long idUsuario) {
 		return cuentaRepository.obtenerCuentasByUserId(idUsuario);
 	}
 
