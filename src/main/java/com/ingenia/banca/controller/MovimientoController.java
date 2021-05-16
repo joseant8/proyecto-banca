@@ -2,8 +2,6 @@ package com.ingenia.banca.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,11 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ingenia.banca.model.Cuenta;
 import com.ingenia.banca.model.Movimiento;
-import com.ingenia.banca.model.Tarjeta;
-import com.ingenia.banca.model.Filter.MovimientoMesFilter;
-import com.ingenia.banca.model.Filter.MovimientosFilter;
+import com.ingenia.banca.payload.filter.MovimientoMesFilter;
+import com.ingenia.banca.payload.filter.MovimientosFilter;
 import com.ingenia.banca.service.MovimientoService;
 import com.ingenia.banca.utils.Utils;
 
@@ -28,12 +24,12 @@ public class MovimientoController {
 	
 	/**
 	 * Obtiene todos los movimientos de una tarjeta
-	 * @param tarjeta
+	 * @param idTarjeta id de la tarjeta
 	 * @return lista de movimientos de la tarjeta 
 	 */
-	@GetMapping("/tarjeta")
-	public List<Movimiento> obtenerTodosLosMovimientosPorTarjeta(@RequestBody Tarjeta tarjeta){
-		return movimientoService.obtenerMovimientosDeTarjeta(tarjeta);
+	@GetMapping("/tarjeta/{idTarjeta}")
+	public List<Movimiento> obtenerTodosLosMovimientosPorTarjeta(@PathVariable Long idTarjeta){
+		return movimientoService.obtenerMovimientosDeTarjeta(idTarjeta);
 	}
 	
 	/**
@@ -42,7 +38,7 @@ public class MovimientoController {
 	 * @param filtroMovimiento filtro en el que encontraremos la categoria y el mes por el que filtrar
 	 * @return devuelve el lsitado de movimientos
 	 */
-	@GetMapping("/tarjeta/{idTarjeta}")
+	@GetMapping("/tarjeta/mes/{idTarjeta}")
 	public List<Movimiento> obtenerMovimientosMesTarjetaByCategoria(@PathVariable("idTarjeta") Long idTarjeta,@RequestBody MovimientoMesFilter filtroMovimiento){
 		return movimientoService.obtenerMovimientosTarjetaByCategoria(idTarjeta, filtroMovimiento);
 	}
@@ -53,7 +49,7 @@ public class MovimientoController {
 	 * @param filtroMovimiento filtro en el que encontraremos la categoria y el mes por el que filtrar
 	 * @return devuelve un double con el valor del balande en el mes filtrado y la categoria filtrada Ex. -43.5 / 432
 	 */
-	@GetMapping("/tarjeta/{idTarjeta}/balance")
+	@GetMapping("/tarjeta/balance/{idTarjeta}")
 	public double obtenerMovimientosTarjetaByCategoriaBalance(@PathVariable("idTarjeta") Long idTarjeta,@RequestBody MovimientoMesFilter filtroMovimiento){
 		List<Movimiento> listaMovimientos = movimientoService.obtenerMovimientosTarjetaByCategoria(idTarjeta, filtroMovimiento);
 		return Utils.obtenerSaldoDeMovimientos(listaMovimientos);
@@ -62,12 +58,12 @@ public class MovimientoController {
 	
 	/**
 	 * Obtenemos todos los movimientos de una cuenta
-	 * @param cuenta la cuenta de la que queremos obtener los movimientos
-	 * @return devuelve la lsita de movimientos de la cuenta
+	 * @param idCuenta id de la cuenta
+	 * @return Lista de movimientos de la cuenta
 	 */
-	@GetMapping("/cuenta")
-	public List<Movimiento> obtenerTodosLosMovimientosPorCuenta(@RequestBody Cuenta cuenta){
-		return movimientoService.obtenerMovimientosDeCuenta(cuenta);
+	@GetMapping("/cuenta/{idCuenta}")
+	public List<Movimiento> obtenerTodosLosMovimientosPorCuenta(@PathVariable Long idCuenta){
+		return movimientoService.obtenerMovimientosDeCuenta(idCuenta);
 	}
 	
 	/**
@@ -76,7 +72,7 @@ public class MovimientoController {
 	 * @param filtroMovimiento filtro en el que encontraremos la categoria y el mes por el que filtrar
 	 * @return devuelve el listado de movimientos
 	 */
-	@GetMapping("/cuenta/{idCuenta}")
+	@GetMapping("/cuenta/mes/{idCuenta}")
 	public List<Movimiento> obtenerMovimientosMesCuentaByCategoria(@PathVariable("idCuenta") Long idCuenta,@RequestBody MovimientoMesFilter filtroMovimiento){
 		return movimientoService.obtenerMovimientosCuentaByCategoria(idCuenta, filtroMovimiento);
 	}
@@ -87,7 +83,7 @@ public class MovimientoController {
 	 * @param filtroMovimiento filtro en el que encontraremos la categoria y el mes por el que filtrar
 	 * @return devuelve el valor del balance de una cuenta en un mes y categoria determinada Ex. -435.3 / 543.98
 	 */
-	@GetMapping("/cuenta/{idCuenta}/balance")
+	@GetMapping("/cuenta/balance/{idCuenta}")
 	public double obtenerMovimientosMesCuentaByCategoriaBalance(@PathVariable("idCuenta") Long idCuenta,@RequestBody MovimientoMesFilter filtroMovimiento){
 		List<Movimiento> listaMovimientos = movimientoService.obtenerMovimientosCuentaByCategoria(idCuenta, filtroMovimiento);
 		return Utils.obtenerSaldoDeMovimientos(listaMovimientos);
@@ -120,7 +116,7 @@ public class MovimientoController {
 	 * @param filtroMovimiento filtro en el que encontraremos la categoria y el mes por el que filtrar
 	 * @return devuelve el valor del balance de una cuenta en un mes y categoria determinada Ex. -435.3 / 543.98
 	 */
-	@GetMapping("/usuario/{idUsuario}/balance")
+	@GetMapping("/usuario/balance/{idUsuario}")
 	public double obtenerMovimientosMesUsuarioByCategoriaBalance(@PathVariable("idUsuario") Long idUsuario,@RequestBody MovimientoMesFilter filtroMovimiento){
 		List<Movimiento> listaMovimientos = movimientoService.obtenerMovimientosUsuarioByCategoria(idUsuario, filtroMovimiento);
 		return Utils.obtenerSaldoDeMovimientos(listaMovimientos);

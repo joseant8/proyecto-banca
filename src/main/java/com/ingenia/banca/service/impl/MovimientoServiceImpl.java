@@ -5,8 +5,8 @@ import com.ingenia.banca.model.Cuenta;
 import com.ingenia.banca.model.Movimiento;
 import com.ingenia.banca.model.Tarjeta;
 import com.ingenia.banca.model.TipoMovimiento;
-import com.ingenia.banca.model.Filter.MovimientoMesFilter;
-import com.ingenia.banca.model.Filter.MovimientosFilter;
+import com.ingenia.banca.payload.filter.MovimientoMesFilter;
+import com.ingenia.banca.payload.filter.MovimientosFilter;
 import com.ingenia.banca.repository.CategoriaRepository;
 import com.ingenia.banca.repository.CuentaRepository;
 import com.ingenia.banca.repository.MovimientoRepository;
@@ -44,16 +44,16 @@ public class MovimientoServiceImpl implements MovimientoService {
 
 	@Transactional
 	@Override
-	public List<Movimiento> obtenerMovimientosDeTarjeta(Tarjeta tarjeta) {
+	public List<Movimiento> obtenerMovimientosDeTarjeta(Long idTarjeta) {
 		// Obtenermos todos los movimientos con el metodo del repositorio
-		return movimientoRepository.obtenerMovimientosDeTarjeta(tarjeta.getId());
+		return movimientoRepository.obtenerMovimientosDeTarjeta(idTarjeta);
 	}
 
 	@Transactional
 	@Override
-	public List<Movimiento> obtenerMovimientosDeCuenta(Cuenta cuenta) {
+	public List<Movimiento> obtenerMovimientosDeCuenta(Long idCuenta) {
 		// Obtenemos todos los movimientos de una cuenta
-		return movimientoRepository.obtenerMovimientosDeCuenta(cuenta.getId());
+		return movimientoRepository.obtenerMovimientosDeCuenta(idCuenta);
 	}
 
 	@Transactional
