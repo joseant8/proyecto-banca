@@ -242,6 +242,7 @@ public class MovimientoServiceImpl implements MovimientoService {
 			cuentaRepository.save(cuentaObtenida);
 			// Guardamos el movmiento en la base de datos
 			return movimientoRepository.save(movimientoNuevo);
+			
 		}catch(Exception e) {
 			// En caso de fallar se devuelve un null
 			throw new Exception();
