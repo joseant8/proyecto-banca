@@ -10,22 +10,27 @@ public class MovimientosFilter {
     private Double cantidad;
     private TipoMovimiento tipo;
     private Long categoriaId;
+    private String concepto;
+    private double saldoActual;
     private Long cuentaId;
     private Long tarjetaId;
     
     
     
-	public MovimientosFilter(Long id, Date fecha, Double cantidad, TipoMovimiento tipo, Long categoriaId, Long cuentaId,
+	public MovimientosFilter(Long id, Date fecha, Double cantidad, TipoMovimiento tipo, String concepto, double saldoActual, Long categoriaId, Long cuentaId,
 			Long tarjetaId) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
 		this.cantidad = cantidad;
 		this.tipo = tipo;
+		this.concepto = concepto;
 		this.categoriaId = categoriaId;
+		this.saldoActual = saldoActual;
 		this.cuentaId = cuentaId;
 		this.tarjetaId = tarjetaId;
 	}
+	
 	
 	public Long getId() {
 		return id;
@@ -68,6 +73,26 @@ public class MovimientosFilter {
 	}
 	public void setTarjetaId(Long tarjetaId) {
 		this.tarjetaId = tarjetaId;
+	}
+
+
+	public String getConcepto() {
+		return concepto;
+	}
+
+
+	public void setConcepto(String concepto) {
+		this.concepto = concepto;
+	}
+
+
+	public double getSaldoActual() {
+		return saldoActual;
+	}
+
+
+	public void setSaldoActual(double saldoActual) {
+		this.saldoActual = saldoActual;
 	}
 
     
