@@ -758,6 +758,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "crearMovimiento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fecha\": \"2021-03-09T23:00:00.000+00:00\",\r\n    \"cantidad\": 600.0,\r\n    \"tipo\": \"GASTO\",\r\n    \"concepto\": \"\",\r\n    \"categoria\": {\r\n        \"id\": 1,\r\n        \"nombre\": \"Ocio\"\r\n    },\r\n    \"cuenta\": {\r\n        \"id\": 1,\r\n        \"iban\": \"ES00 0000 2000 00 0000000000\",\r\n        \"saldo\": 3000.00,\r\n        \"fechaCreacion\": \"2020-02-23T23:00:00.000+00:00\"\r\n    },\r\n    \"tarjeta\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api-rest-spring-app-banca.herokuapp.com/API/movimientos",
+							"protocol": "https",
+							"host": [
+								"api-rest-spring-app-banca",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"API",
+								"movimientos"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
