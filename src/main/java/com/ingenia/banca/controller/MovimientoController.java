@@ -33,11 +33,15 @@ public class MovimientoController {
 	 */
 	@PostMapping
 	public ResponseEntity<Movimiento> crearMovimiento(@RequestBody Movimiento movimientoNuevo) {
-		Movimiento movimientoGuardado = movimientoService.crearMovimiento(movimientoNuevo);
-		if(movimientoGuardado.getId()!=null) {
-			return ResponseEntity.ok().body(movimientoGuardado);
-		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		try {
+			Movimiento movimientoGuardado = movimientoService.crearMovimiento(movimientoNuevo);
+			if(movimientoGuardado != null && movimientoGuardado.getId()!=null) {
+				return ResponseEntity.ok().body(movimientoGuardado);
+			}else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}			
+		}catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 	}

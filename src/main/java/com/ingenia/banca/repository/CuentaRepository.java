@@ -14,4 +14,6 @@ public interface CuentaRepository extends JpaRepository<Cuenta, Long> {
 
 	@Query("select c from Cuenta c join c.usuarios u where u.id = :idUsuario")
 	List<Cuenta> obtenerCuentasByUserId(@Param("idUsuario")Long idUsuario);
+
+
 }

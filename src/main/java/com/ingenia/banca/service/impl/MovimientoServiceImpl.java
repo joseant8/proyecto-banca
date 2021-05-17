@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -212,9 +213,39 @@ public class MovimientoServiceImpl implements MovimientoService {
 
  }
 
+	@Transactional
 	@Override
-	public Movimiento crearMovimiento(Movimiento movimientoNuevo) {
-		return movimientoRepository.save(movimientoNuevo);
+	public Movimiento crearMovimiento(Movimiento movimientoNuevo) throws Exception {
+		try {
+			Optional<Cuenta> cuenta = null;
+			Cuenta cuentaObtenida = null;
+			if(movimientoNuevo.getCuenta() != null) {
+				// Obtenemos la cuenta de la base de datos que se va a realizar el movimeinto
+				cuenta = cuentaRepository.findById(movimientoNuevo.getCuenta().getId());				
+			}
+			if(cuenta != null) {
+				cuentaObtenida = cuenta.get();				
+			}
+			
+			// Calculamos el nuevo saldo actual en el movimiento
+			if(movimientoNuevo.getSaldoActual()!= null || movimientoNuevo.getSaldoActual() == 0) {
+				if(TipoMovimiento.INGRESO.equals(movimientoNuevo.getTipo())) {
+					movimientoNuevo.setSaldoActual(cuentaObtenida.getSaldo() + movimientoNuevo.getCantidad());				
+				}else {
+					movimientoNuevo.setSaldoActual(cuentaObtenida.getSaldo() - movimientoNuevo.getCantidad());
+				}
+			}
+			
+			// Almacenamos el saldo actual en la cuenta
+			cuentaObtenida.setSaldo(movimientoNuevo.getSaldoActual());
+			// Guardamos la cuenta actualizada en la base de datos
+			cuentaRepository.save(cuentaObtenida);
+			// Guardamos el movmiento en la base de datos
+			return movimientoRepository.save(movimientoNuevo);
+		}catch(Exception e) {
+			// En caso de fallar se devuelve un null
+			throw new Exception();
+		}
 	}
 
 
