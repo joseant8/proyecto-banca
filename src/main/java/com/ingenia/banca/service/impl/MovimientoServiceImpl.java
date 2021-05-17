@@ -219,28 +219,29 @@ public class MovimientoServiceImpl implements MovimientoService {
 		try {
 			Optional<Cuenta> cuenta = null;
 			Cuenta cuentaObtenida = null;
-			if(movimientoNuevo.getCuenta() != null) {
+
 				// Obtenemos la cuenta de la base de datos que se va a realizar el movimeinto
 				cuenta = cuentaRepository.findById(movimientoNuevo.getCuenta().getId());				
-			}
+
 			if(cuenta != null) {
 				cuentaObtenida = cuenta.get();				
 			}
 			
 			// Calculamos el nuevo saldo actual en el movimiento
-			if(movimientoNuevo.getSaldoActual()!= null || movimientoNuevo.getSaldoActual() == 0) {
-				if(TipoMovimiento.INGRESO.equals(movimientoNuevo.getTipo())) {
-					movimientoNuevo.setSaldoActual(cuentaObtenida.getSaldo() + movimientoNuevo.getCantidad());				
-				}else {
-					movimientoNuevo.setSaldoActual(cuentaObtenida.getSaldo() - movimientoNuevo.getCantidad());
-				}
+
+			if(TipoMovimiento.INGRESO.equals(movimientoNuevo.getTipo())) {
+				movimientoNuevo.setSaldoActual(cuentaObtenida.getSaldo() + movimientoNuevo.getCantidad());				
+			}else {
+				movimientoNuevo.setSaldoActual(cuentaObtenida.getSaldo() - movimientoNuevo.getCantidad());
 			}
+
 			
 			// Almacenamos el saldo actual en la cuenta
 			cuentaObtenida.setSaldo(movimientoNuevo.getSaldoActual());
 			// Guardamos la cuenta actualizada en la base de datos
-			cuentaRepository.save(cuentaObtenida);
+			Cuenta cuentaGuardada = cuentaRepository.save(cuentaObtenida);
 			// Guardamos el movmiento en la base de datos
+			movimientoNuevo.setCuenta(cuentaGuardada);
 			return movimientoRepository.save(movimientoNuevo);
 			
 		}catch(Exception e) {
